@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" href="images/icons/icon-192x192.png">
+  <title>❤bitcoin - Love Bitcoin</title>
+  <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="manifest" href="manifest.json" />
+  <!-- ios support -->
+  <link rel="apple-touch-icon" href="images/icons/icon-192x192.png" />
+  <link rel="apple-touch-icon" href="images/icons/icon-256x256.png" />
+  <link rel="apple-touch-icon" href="images/icons/icon-384x384.png" />
+  <link rel="apple-touch-icon" href="images/icons/icon-512x512.png" />
+  <meta name="apple-mobile-web-app-status-bar" content="#000000" />
+  <meta name="theme-color" content="#000000" />
+</head>
+<style type="text/css">
+.btcText{
+  margin-top: -200px;
+}
+
+#bitcoin{
+  display:block;
+  text-align:center;
+  }
+.path {
+  stroke-dasharray: 2110;
+  stroke-dashoffset: 2110;
+  stroke-width:20;
+  stroke-linecap:round;
+  animation: dash 6s linear infinite;
+  fill-opacity:0;
+  stroke:orange;
+}
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 2110;
+    opacity:0.5;
+    stroke:orange;
+  }
+  15%{
+    opacity:1;
+    stroke:orange;
+  }
+  70%{
+    opacity:1;
+    stroke:orange;
+  }
+  100%{
+    stroke-dashoffset:0;
+    opacity:0.5;
+    stroke:yellow;
+  }
+}
+</style>
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true" onload="loadDoc()">
+
+<div class="page-wrapper with-navbar with-navbar-fixed-bottom">
+<div class="sticky-alerts"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+      <div class="navbar-content">
+      </div>
+      <div href="#" class="navbar-brand ml-auto text-center">
+      <span href="#" id='currentChainState'>❤bitcoin.ws</span>
+      </div>
+      <span class="navbar-text ml-auto">
+      </span>
+</nav>
+<!-- NAVBAR ENDS -->
+
+<!-- WRAPPER -->
+<div class="content-wrapper">
+  <div class="row justify-content-center">
+  <div class="col-sm-12 col-md-4 col-lg-4">
+  <div class="card text-center">
+  <h2 class="card-title">
+
+<div id="pre">
+<div id="bitcoin">
+  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   width="50px" height="50px" viewBox="100 100 400 400" xml:space="preserve">
+    <filter id="dropshadow" height="130%">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+  <feOffset dx="0" dy="0" result="offsetblur"/>
+  <feFlood flood-color="red"/>
+<feComposite in2="offsetblur" operator="in"/>
+<feMerge>
+<feMergeNode/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>          
+<path class="path" style="filter:url(#dropshadow)" fill="#000000" d="M446.089,261.45c6.135-41.001-25.084-63.033-67.769-77.735l13.844-55.532l-33.801-8.424l-13.48,54.068
+  c-8.896-2.217-18.015-4.304-27.091-6.371l13.568-54.429l-33.776-8.424l-13.861,55.521c-7.354-1.676-14.575-3.328-21.587-5.073
+  l0.034-0.171l-46.617-11.64l-8.993,36.102c0,0,25.08,5.746,24.549,6.105c13.689,3.42,16.159,12.478,15.75,19.658L208.93,357.23
+  c-1.675,4.158-5.925,10.401-15.494,8.031c0.338,0.485-24.579-6.134-24.579-6.134l-9.631,40.468l36.843,9.188
+  c8.178,2.051,16.209,4.19,24.098,6.217l-13.978,56.17l33.764,8.424l13.852-55.571c9.235,2.499,18.186,4.813,26.948,6.995
+  l-13.802,55.309l33.801,8.424l13.994-56.061c57.648,10.902,100.998,6.502,119.237-45.627c14.705-41.979-0.731-66.193-31.06-81.984
+  C425.008,305.984,441.655,291.455,446.089,261.45z M368.859,369.754c-10.455,41.983-81.128,19.285-104.052,13.589l18.562-74.404
+  C306.28,314.65,379.774,325.975,368.859,369.754z M379.302,260.846c-9.527,38.187-68.358,18.781-87.442,14.023l16.828-67.489
+  C327.767,212.14,389.234,221.02,379.302,260.846z"/>          
+</svg>
+</div>
+ = <b><span id="currPrice" class="btcText text-success"></span></b> USD
+
+</div>
+
+  </h2>
+  </div>
+  </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6">
+    <div class="card text-center">
+      <h2 class="card-title">
+        BTC Tx status checker
+      </h2>
+      <p>
+        Just enter your transaction ID here to check if it is confirmed yet : 
+        <form action="#" method="#">
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="material-icons">receipt</i>
+                </span>
+              </div>
+              <input type="text" id="txid" class="form-control form-control-lg" placeholder="TX ID" required="required">
+            </div>
+            <input class="btn btn-primary btn-lg" onclick="txStatus()" value="Check status">
+          </form>
+      </p>
+    </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-6">
+    <div class="card text-center">
+      <h2 class="card-title">
+        BTC Address Balance checker
+      </h2>
+      <p>
+        Just enter your any BTC address : 
+        <form action="#" method="#">
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="material-icons">info</i>
+                </span>
+              </div>
+              <input type="text" id="address" class="form-control form-control-lg" placeholder="Address" required="required">
+            </div>
+            <input class="btn btn-primary btn-lg" onclick="getBalance()" value="Get balance">
+          </form>
+    </p>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- WRAPPER ENDS -->
+
+
+
+<nav class="navbar navbar-fixed-bottom">
+  <div class="navbar-content">
+<!--         <div class="dropdown dropup with-arrow">
+          <button class="btn" data-toggle="dropdown" type="button" id="navbar-fixed-bottom-dropdown-toggle">
+            Help
+            <i class="fa fa-angle-up" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="navbar-fixed-bottom-dropdown-toggle">
+            <a href="#" class="dropdown-item">Tutorials</a>
+            <a href="#" class="dropdown-item">Examples</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">Support</a>
+            <a href="#" class="dropdown-item">Contact us</a>
+          </div>
+        </div> -->
+  </div>
+  <div href="#" class="navbar-brand ml-auto"> <!-- ml-auto = margin-left: auto -->
+    <a href="#">❤bitcoin.ws</a>
+    </div>
+    <!-- Navbar text -->
+    <span class="navbar-text ml-auto">
+    <button class="btn btn-square" type="button" onclick="toggle()"><i class="material-icons">brightness_3</i></button>
+    </span>
+</nav>
+
+</div>
+<!-- PAGE WRAPPER END -->
+<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js" integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg==" crossorigin="anonymous"></script>
+<script>
+function toggle() {
+    halfmoon.toggleDarkMode();
+  }
+var price;
+function txStatus() {
+  var x = document.getElementById("txid").value;
+  var xhttpTX = new XMLHttpRequest();
+  xhttpTX.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = JSON.parse(this.responseText);
+      if (arr.confirmed==true){
+      halfmoon.initStickyAlert({
+      // content: "Tx ID: "+x,
+      title: "Transaction is confirmed!",
+      alertType: "alert-success",
+      fillType: "filled"
+    });
+      }
+      else if (arr.confirmed==false){
+      halfmoon.initStickyAlert({
+      // content: "Tx ID : "+x,
+      title: "Transaction NOT confirmed",
+      alertType: "alert-danger",
+      fillType: "filled"
+    });
+      }
+}
+  else if((this.readyState == 4 && this.status == 400))
+    {halfmoon.initStickyAlert({
+      // content: "Tx ID : "+x,
+      title: "Invalid Tx ID",
+      alertType: "alert-secondary",
+      fillType: "filled"
+    });
+}
+  };
+var x = document.getElementById("txid").value;
+xhttpTX.open("GET", "http://mempool.space/api/tx/"+x+"/status", true);
+xhttpTX.send();
+}
+
+function getPrice() {
+var xhttpPR = new XMLHttpRequest();
+xhttpPR.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = JSON.parse(this.responseText);
+      document.getElementById("currPrice").innerHTML = arr.data[154].price.toFixed(1);
+  }
+  };
+xhttpPR.open("GET", "http://price.bisq.wiz.biz/getAllMarketPrices", true);
+xhttpPR.send();
+}
+
+setInterval(function refreshFeed(){
+loadDoc();
+}, 5000);
+
+function getBalance() {
+var address = document.getElementById("address").value;
+var xhttpBL = new XMLHttpRequest();
+xhttpBL.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = JSON.parse(this.responseText);
+      var bal = arr.chain_stats.funded_txo_sum-arr.chain_stats.spent_txo_sum;
+      bal=bal/100000000;
+      var Price = document.getElementById("currPrice").innerHTML;
+      var balUSD = bal * Price;
+      halfmoon.initStickyAlert({
+      content : "₿ " +bal,
+      title: "Your balance is : "+ balUSD+" USD",
+      alertType: "alert-success",
+      fillType: "filled"
+    });
+  }
+  };
+xhttpBL.open("GET", "http://mempool.space/api/address/"+address, true);
+xhttpBL.send();
+}
+
+function loadDoc() {  
+  getPrice();
+    var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = JSON.parse(this.responseText);
+      var out = "Fee in terms of sat/vB <br>Fastest fee : "+ arr.fastestFee+" | 30 mins fee : "+arr.halfHourFee+" | 1 hour fee : "+arr.hourFee+" | Minimum fee : "+arr.minimumFee;
+      document.getElementById("currentChainState").innerHTML = out;}
+
+// var ctx = document.getElementById('myChart');
+// var myChart = new Chart(ctx, {
+//     type: 'bar',
+//     data: {
+//         labels: ['Fastest', '30 min', '1 hour', 'Minimum'],
+//         datasets: [{
+//             label: 'sats/byte',
+//             data: [arr.fastestFee, arr.halfHourFee, arr.hourFee, arr.minimumFee],
+//             backgroundColor: [
+//                 'rgba(255, 99, 132, 0.2)',
+//                 'rgba(54, 162, 235, 0.2)',
+//                 'rgba(255, 206, 86, 0.2)',
+//                 'rgba(75, 192, 192, 0.2)'
+//             ],
+//             borderColor: [
+//                 'rgba(255, 99, 132, 1)',
+//                 'rgba(54, 162, 235, 1)',
+//                 'rgba(255, 206, 86, 1)',
+//                 'rgba(75, 192, 192, 1)'
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+//     options: {
+//         scales: {
+//             yAxes: [{
+//                 ticks: {
+//                     beginAtZero: true
+//                 }
+//             }]
+//         }
+//     }
+// });
+
+
+    //   halfmoon.initStickyAlert({
+    //   content: arr.minimumFee,
+    //   title: "Minimum Fee : ",
+    //   alertType: "alert-danger",
+    //   fillType: "filled"
+    // });
+
+    //   halfmoon.initStickyAlert({
+    //   content: arr.hourFee,
+    //   title: "1 hour Fee : ",
+    //   alertType: "alert-secondary",
+    //   fillType: "filled"
+    // });
+
+    //   halfmoon.initStickyAlert({
+    //   content: arr.halfHourFee,
+    //   title: "30 mins Fee : ",
+    //   alertType: "alert-primary",
+    //   fillType: "filled"
+    // });
+
+    //   halfmoon.initStickyAlert({
+    //   content: arr.fastestFee,
+    //   title: "Fastest Fee : ",
+    //   alertType: "alert-success",
+    //   fillType: "filled"
+    // });
+
+
+
+  
+  };
+  xhttp.open("GET", "http://mempool.space/api/v1/fees/recommended", true);
+  xhttp.send();
+}
+</script>
+</body>
+</html>

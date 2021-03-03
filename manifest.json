@@ -1,0 +1,27 @@
+{
+  "name": "❤bitcoin",
+  "short_name": "❤bitcoin",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/icons/icon-192x192.png",
+      "type": "image/png", "sizes": "192x192"
+    },
+    {
+      "src": "/images/icons/icon-256-256.png",
+      "type": "image/png", "sizes": "256x256"
+    },
+    {
+      "src": "/images/icons/icon-384x384.png",
+      "type": "image/png", "sizes": "384x384"
+    },
+    {
+      "src": "/images/icons/icon-512x512.png",
+      "type": "image/png", "sizes": "512x512"
+    }
+  ]
+}
