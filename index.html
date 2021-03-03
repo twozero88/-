@@ -235,7 +235,7 @@ function txStatus() {
 }
   };
 var x = document.getElementById("txid").value;
-xhttpTX.open("GET", "http://mempool.space/api/tx/"+x+"/status", true);
+xhttpTX.open("GET", "https://mempool.space/api/tx/"+x+"/status", true);
 xhttpTX.send();
 }
 
@@ -247,7 +247,7 @@ xhttpPR.onreadystatechange = function() {
       document.getElementById("currPrice").innerHTML = arr.data[154].price.toFixed(1);
   }
   };
-xhttpPR.open("GET", "http://price.bisq.wiz.biz/getAllMarketPrices", true);
+xhttpPR.open("GET", "https://price.bisq.wiz.biz/getAllMarketPrices", true);
 xhttpPR.send();
 }
 
@@ -273,7 +273,7 @@ xhttpBL.onreadystatechange = function() {
     });
   }
   };
-xhttpBL.open("GET", "http://mempool.space/api/address/"+address, true);
+xhttpBL.open("GET", "https://mempool.space/api/address/"+address, true);
 xhttpBL.send();
 }
 
@@ -353,7 +353,7 @@ function loadDoc() {
 
   
   };
-  xhttp.open("GET", "http://mempool.space/api/v1/fees/recommended", true);
+  xhttp.open("GET", "https://mempool.space/api/v1/fees/recommended", true);
   xhttp.send();
 }
 </script>
