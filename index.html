@@ -18,6 +18,8 @@
   <link rel="apple-touch-icon" href="images/icons/icon-512x512.png" />
   <meta name="apple-mobile-web-app-status-bar" content="#000000" />
   <meta name="theme-color" content="#000000" />
+  <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
+
 </head>
 <style type="text/css">
 .btcText{
@@ -57,18 +59,113 @@
     stroke:yellow;
   }
 }
+#qr-canvas {
+  display:block;
+  text-align:center;
+  margin: auto;
+  /*width: calc(100% - 20px);*/
+  max-width: 300px;
+}
+
+#btn-scan-qr {
+  cursor: pointer;
+}
+
+#btn-scan-qr img {
+  height: 10em;
+  padding: 15px;
+  margin: 15px;
+  background: white;
+}
+
+#qr-result {
+  font-size: 1.2em;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 700px;
+  background-color: white;
+}
+
 </style>
-<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true" onload="loadDoc()">
+<!-- <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true" onload="loadDoc();halfmoon.toggleDarkMode();">
+ --><body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" onload="loadDoc();halfmoon.toggleDarkMode();">
+
+<!-- First comes the modal -->
+<div class="modal" id="modal-1" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" id="closeCam" class="close" role="button" aria-label="Close">
+        <span aria-hidden="">&times;</span>
+      </a>
+      <h5 class="modal-title text-center">Address Scanner</h5>
+      <p>
+        <canvas hidden="" id="qr-canvas"></canvas>
+      </p>
+<!--       <div class="text-right mt-20">
+        <a href="#" class="btn mr-5" role="button">Close</a>
+        <a href="#" class="btn btn-primary" role="button">I understand</a>
+      </div>
+ -->    </div>
+  </div>
+</div>
+
+
+
+<div class="modal" id="modal-2" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <h5 class="modal-title text-center">Current Fee</h5>
+<div class="alert alert-success filled-dm" role="alert">
+  <h4 class="alert-heading">Fastest Fee (10 mins)</h4>
+    <span id="Fee1"></span>
+</div>
+<br>
+<div class="alert alert-primary" role="alert">
+  <h4 class="alert-heading filled-dm">30 mins Fee</h4>
+    <span id="Fee2"></span>
+</div>
+<br>
+<div class="alert alert-secondary filled-dm" role="alert">
+  <h4 class="alert-heading">60 mins Fee</h4>
+    <span id="Fee3"></span>
+</div>
+<br>
+<div class="alert alert-danger filled-dm" role="alert">
+  <h4 class="alert-heading">Minimum Fee</h4>
+  <span id="Fee4"></span>
+</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="page-wrapper with-navbar with-navbar-fixed-bottom">
 <div class="sticky-alerts"></div>
 
 <!-- NAVBAR -->
-<nav class="navbar">
+<nav class="navbar" >
       <div class="navbar-content">
       </div>
       <div href="#" class="navbar-brand ml-auto text-center">
+      <br>
       <span href="#" id='currentChainState'>❤bitcoin.ws</span>
+      <br>
       </div>
       <span class="navbar-text ml-auto">
       </span>
@@ -154,6 +251,9 @@
                 </span>
               </div>
               <input type="text" id="address" class="form-control form-control-lg" placeholder="Address" required="required">
+                <div class="input-group-append">
+    <a href="#modal-1" id="btn-scan-qr" class="btn btn-secondary input-group-text"><i class="material-icons">qr_code_scanner</i></a>
+  </div>
             </div>
             <input class="btn btn-primary btn-lg" onclick="getBalance()" value="Get balance">
           </form>
@@ -161,7 +261,8 @@
     </div>
     </div>
   </div>
-</div>
+  </div>
+
 <!-- WRAPPER ENDS -->
 
 
@@ -195,8 +296,8 @@
 <!-- PAGE WRAPPER END -->
 <script src="js/app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js" integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg==" crossorigin="anonymous"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js" integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg==" crossorigin="anonymous"></script> -->
 <script>
 function toggle() {
     halfmoon.toggleDarkMode();
@@ -249,12 +350,9 @@ xhttpPR.onreadystatechange = function() {
   };
 xhttpPR.open("GET", "https://price.bisq.wiz.biz/getAllMarketPrices", true);
 xhttpPR.setRequestHeader('Origin', 'https://twozero88.github.io/loveBitcoin');
-// xhr.setRequestHeader('Content-Type', 'application/json');
-// xhr.setRequestHeader('Content-Type', 'application/json');
-
+xhttpPR.setRequestHeader('Content-Type', 'application/json');
 xhttpPR.send();
 }
-
 setInterval(function refreshFeed(){
 loadDoc();
 }, 5000);
@@ -287,7 +385,16 @@ function loadDoc() {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var arr = JSON.parse(this.responseText);
-      var out = "Fee in terms of sat/vB <br>Fastest fee : "+ arr.fastestFee+" | 30 mins fee : "+arr.halfHourFee+" | 1 hour fee : "+arr.hourFee+" | Minimum fee : "+arr.minimumFee;
+      // var out = "Fee in sat/vB | Fastest fee : "+ arr.fastestFee+" | 30 mins fee : "+arr.halfHourFee+" | 1 hour fee : "+arr.hourFee+" | Minimum fee : "+arr.minimumFee;
+      var out = "Fastest fee : "+ arr.fastestFee+" sat/vB. <a href='#modal-2'>Check current fees</a>";
+      var one = arr.fastestFee + " sat/vB";
+      var two = arr.halfHourFee + " sat/vB";
+      var three = arr.hourFee + " sat/vB";
+      var four = arr.minimumFee + " sat/vB";
+      document.getElementById("Fee1").innerHTML = one;
+      document.getElementById("Fee2").innerHTML = two;
+      document.getElementById("Fee3").innerHTML = three;
+      document.getElementById("Fee4").innerHTML = four;
       document.getElementById("currentChainState").innerHTML = out;}
 
 // var ctx = document.getElementById('myChart');
@@ -360,6 +467,74 @@ function loadDoc() {
   xhttp.open("GET", "https://mempool.space/api/v1/fees/recommended", true);
   xhttp.send();
 }
+
+
+const video = document.createElement("video");
+const canvasElement = document.getElementById("qr-canvas");
+const canvas = canvasElement.getContext("2d");
+
+// const qrResult = document.getElementById("qr-result");
+const outputData = document.getElementById("address");
+const btnScanQR = document.getElementById("btn-scan-qr");
+const closeCam = document.getElementById("closeCam");
+
+let scanning = false;
+
+qrcode.callback = res => {
+  if (res) {
+    outputData.value = res;
+    scanning = false;
+    video.srcObject.getTracks().forEach(track => {
+      track.stop();
+    });
+    // qrResult.hidden = false;
+    canvasElement.hidden = true;
+    btnScanQR.hidden = false;
+    closeCam.click();
+
+  }
+};
+
+closeCam.onclick = () => {
+    scanning = false;
+    video.srcObject.getTracks().forEach(track => {
+      track.stop();
+    });
+    canvasElement.hidden = true;
+    btnScanQR.hidden = false;
+};
+
+btnScanQR.onclick = () => {
+  navigator.mediaDevices
+    .getUserMedia({ video: { facingMode: "environment" } })
+    .then(function(stream) {
+      scanning = true;
+      // qrResult.hidden = true;
+      btnScanQR.hidden = true;
+      canvasElement.hidden = false;
+      video.setAttribute("playsinline", true); 
+      video.srcObject = stream;
+      video.play();
+      tick();
+      scan();
+    });
+};
+
+function tick() {
+  canvasElement.height = video.videoHeight;
+  canvasElement.width = video.videoWidth;
+  canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+  scanning && requestAnimationFrame(tick);
+}
+
+function scan() {
+  try {
+    qrcode.decode();
+  } catch (e) {
+    setTimeout(scan, 300);
+  }
+}
+
 </script>
 </body>
 </html>
