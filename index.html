@@ -97,19 +97,28 @@
       <a href="#" id="closeCam" class="close" role="button" aria-label="Close">
         <span aria-hidden="">&times;</span>
       </a>
-      <h5 class="modal-title text-center">Address Scanner</h5>
+      <h5 class="modal-title text-center">Scanner</h5>
       <p>
         <canvas hidden="" id="qr-canvas"></canvas>
       </p>
-<!--       <div class="text-right mt-20">
-        <a href="#" class="btn mr-5" role="button">Close</a>
-        <a href="#" class="btn btn-primary" role="button">I understand</a>
-      </div>
- -->    </div>
+    </div>
   </div>
 </div>
 
-
+<!-- <div class="modal" id="modal-0" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" id="closeCam" class="close" role="button" aria-label="Close">
+        <span aria-hidden="">&times;</span>
+      </a>
+      <h5 class="modal-title text-center">Tx. ID Scanner</h5>
+      <p>
+        <canvas hidden="" id="qr-canvas2"></canvas>
+      </p>
+    </div>
+  </div>
+</div>
+ -->
 
 <div class="modal" id="modal-2" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -229,7 +238,10 @@
                 </span>
               </div>
               <input type="text" id="txid" class="form-control form-control-lg" placeholder="TX ID" required="required">
+                <div class="input-group-append">
+    <a href="#modal-1" id="btn-scan-qr2" class="btn btn-secondary input-group-text"><i class="material-icons">qr_code_scanner</i></a>
             </div>
+          </div>
             <input class="btn btn-primary btn-lg" onclick="txStatus()" value="Check status">
           </form>
       </p>
@@ -348,7 +360,7 @@ xhttpPR.onreadystatechange = function() {
       document.getElementById("currPrice").innerHTML = arr.data[154].price.toFixed(1);
   }
   };
-xhttpPR.open("GET", "https://price.bisq.wiz.biz/getAllMarketPrices", true);
+xhttpPR.open("GET", "httzps://price.bisq.wiz.biz/getAllMarketPrices", true);
 xhttpPR.setRequestHeader('Origin', 'https://twozero88.github.io/loveBitcoin');
 xhttpPR.setRequestHeader('Content-Type', 'application/json');
 xhttpPR.send();
@@ -472,17 +484,37 @@ function loadDoc() {
 const video = document.createElement("video");
 const canvasElement = document.getElementById("qr-canvas");
 const canvas = canvasElement.getContext("2d");
-
-// const qrResult = document.getElementById("qr-result");
-const outputData = document.getElementById("address");
+const qrResult = document.getElementById("qr-result");
 const btnScanQR = document.getElementById("btn-scan-qr");
+const btnScanQR2 = document.getElementById("btn-scan-qr2");
 const closeCam = document.getElementById("closeCam");
 
 let scanning = false;
 
+
+document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    var isEscape = false;
+    if ("key" in evt) {
+        isEscape = (evt.key === "Escape" || evt.key === "Esc");
+    } else {
+        isEscape = (evt.keyCode === 27);
+    }
+    if (isEscape) {
+        closeCam.click();
+    }
+};
+
 qrcode.callback = res => {
   if (res) {
-    outputData.value = res;
+    if(btnScanQR.hidden==true){
+      const outputData = document.getElementById("address");
+      outputData.value = res;
+    }
+    if(btnScanQR2.hidden==true){
+      const outputData = document.getElementById("txid");      
+      outputData.value = res;
+    }
     scanning = false;
     video.srcObject.getTracks().forEach(track => {
       track.stop();
@@ -494,7 +526,6 @@ qrcode.callback = res => {
 
   }
 };
-
 closeCam.onclick = () => {
     scanning = false;
     video.srcObject.getTracks().forEach(track => {
@@ -520,12 +551,30 @@ btnScanQR.onclick = () => {
     });
 };
 
+btnScanQR2.onclick = () => {
+  navigator.mediaDevices
+    .getUserMedia({ video: { facingMode: "environment" } })
+    .then(function(stream) {
+      scanning = true;
+      // qrResult.hidden = true;
+      btnScanQR2.hidden = true;
+      canvasElement.hidden = false;
+      video.setAttribute("playsinline", true); 
+      video.srcObject = stream;
+      video.play();
+      tick();
+      scan();
+    });
+};
+
 function tick() {
   canvasElement.height = video.videoHeight;
   canvasElement.width = video.videoWidth;
   canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
   scanning && requestAnimationFrame(tick);
 }
+
+
 
 function scan() {
   try {
