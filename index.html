@@ -352,6 +352,21 @@ xhttpTX.open("GET", "https://mempool.space/api/tx/"+x+"/status", true);
 xhttpTX.send();
 }
 
+function getPrice2(){
+  var currentPrice = new XMLHttpRequest();
+
+currentPrice.open('GET', 'https://api.gdax.com/products/BTC-USD/book', true);
+currentPrice.onreadystatechange = function(){
+  if(currentPrice.readyState == 4){
+    var ticker = JSON.parse(currentPrice.responseText);
+    var price = ticker.bids[0][0];
+    document.getElementById("currPrice").innerHTML = price;
+  };
+};
+currentPrice.send();
+}
+
+
 function getPrice() {
 var xhttpPR = new XMLHttpRequest();
 xhttpPR.onreadystatechange = function() {
@@ -360,14 +375,15 @@ xhttpPR.onreadystatechange = function() {
       document.getElementById("currPrice").innerHTML = arr.data[154].price.toFixed(1);
   }
   };
-xhttpPR.open("GET", "httzps://price.bisq.wiz.biz/getAllMarketPrices", true);
+xhttpPR.open("GET", "https://price.bisq.wiz.biz/getAllMarketPrices", true);
+// xhttpPR.open("GET", "https://bisq.markets/api/ticker?market=btc_usd", true);
 xhttpPR.setRequestHeader('Origin', 'https://twozero88.github.io/loveBitcoin');
 xhttpPR.setRequestHeader('Content-Type', 'application/json');
 xhttpPR.send();
 }
 setInterval(function refreshFeed(){
 loadDoc();
-}, 5000);
+}, 10000);
 
 function getBalance() {
 var address = document.getElementById("address").value;
@@ -392,7 +408,7 @@ xhttpBL.send();
 }
 
 function loadDoc() {  
-  getPrice();
+  getPrice2();
     var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
