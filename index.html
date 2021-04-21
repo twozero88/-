@@ -14,7 +14,6 @@
   <!-- ios support -->
   <link rel="apple-touch-icon" href="images/icons/icon-192x192.png" />
   <link rel="apple-touch-icon" href="images/icons/icon-256x256.png" />
-  <link rel="apple-touch-icon" href="images/icons/icon-384x384.png" />
   <link rel="apple-touch-icon" href="images/icons/icon-512x512.png" />
   <meta name="apple-mobile-web-app-status-bar" content="#000000" />
   <meta name="theme-color" content="#000000" />
@@ -105,20 +104,23 @@
   </div>
 </div>
 
-<!-- <div class="modal" id="modal-0" tabindex="-1" role="dialog">
+
+<div class="modal" id="donate" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <a href="#" id="closeCam" class="close" role="button" aria-label="Close">
-        <span aria-hidden="">&times;</span>
-      </a>
-      <h5 class="modal-title text-center">Tx. ID Scanner</h5>
-      <p>
-        <canvas hidden="" id="qr-canvas2"></canvas>
+      <h5 class="modal-title text-center">Donate BTC</h5>
+      <p class='text-center'>
+          Address
+        <div class="row justify-content-center">   
+    <div class="col-6">
+    <img src="images/qr.png" class="img-fluid" alt="responsive image">
+  </div>
+</div>
       </p>
     </div>
   </div>
 </div>
- -->
+
 
 <div class="modal" id="modal-2" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -184,6 +186,8 @@
 <!-- WRAPPER -->
 <div class="content-wrapper">
   <div class="row justify-content-center">
+  <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+
   <div class="col-sm-12 col-md-4 col-lg-4">
   <div class="card text-center">
   <h2 class="card-title">
@@ -226,7 +230,7 @@
     <div class="col-sm-12 col-md-6 col-lg-6">
     <div class="card text-center">
       <h2 class="card-title">
-        BTC Tx status checker
+        BTC Tx + Accelerator status checker
       </h2>
       <p>
         Just enter your transaction ID here to check if it is confirmed yet : 
@@ -281,22 +285,22 @@
 
 <nav class="navbar navbar-fixed-bottom">
   <div class="navbar-content">
-<!--         <div class="dropdown dropup with-arrow">
+        <div class="dropdown dropup with-arrow">
           <button class="btn" data-toggle="dropdown" type="button" id="navbar-fixed-bottom-dropdown-toggle">
             Help
             <i class="fa fa-angle-up" aria-hidden="true"></i>
           </button>
           <div class="dropdown-menu" aria-labelledby="navbar-fixed-bottom-dropdown-toggle">
-            <a href="#" class="dropdown-item">Tutorials</a>
-            <a href="#" class="dropdown-item">Examples</a>
+            <a href="resources.html" class="dropdown-item">Resources</a>
+            <a href="btc.html" class="dropdown-item">BTC in a minute</a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">Support</a>
-            <a href="#" class="dropdown-item">Contact us</a>
+            <a href="#donate" class="dropdown-item">Donate</a>
+            <a href="about.html" class="dropdown-item">About and contact</a>
           </div>
-        </div> -->
+        </div>
   </div>
-  <div href="#" class="navbar-brand ml-auto"> <!-- ml-auto = margin-left: auto -->
-    <a href="#">❤bitcoin.ws</a>
+  <div href="/" class="navbar-brand ml-auto"> 
+    <a href="/">❤bitcoin.ws</a>
     </div>
     <!-- Navbar text -->
     <span class="navbar-text ml-auto">
@@ -315,6 +319,40 @@ function toggle() {
     halfmoon.toggleDarkMode();
   }
 var price;
+
+function accelerate(txid){
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var hex=this.responseText;
+      // console.log(hex);
+      var formData = new FormData();
+      formData.append("tx", hex);
+        var xhttp2 = new XMLHttpRequest();
+        xhttp2.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+        halfmoon.initStickyAlert({
+        // content: "Tx ID: "+x,
+        title: "Transaction accelerated!",
+        alertType: "alert-success",
+        fillType: "filled"
+    });
+        }
+        };
+        xhttp2.open("POST", "https://blockchain.info/pushtx?cors=true", true);
+        xhttp2.send(formData);
+    }
+  };
+  xhttp.open("GET", "https://blockstream.info/api/tx/"+txid+"/hex", true);
+  xhttp.send();
+
+
+}
+
+
+
 function txStatus() {
   var x = document.getElementById("txid").value;
   var xhttpTX = new XMLHttpRequest();
@@ -336,6 +374,8 @@ function txStatus() {
       alertType: "alert-danger",
       fillType: "filled"
     });
+      console.log("Called")
+      accelerate(document.getElementById("txid").value);
       }
 }
   else if((this.readyState == 4 && this.status == 400))
@@ -408,7 +448,7 @@ xhttpBL.send();
 }
 
 function loadDoc() {  
-  getPrice2();
+  getPrice();
     var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -425,39 +465,39 @@ function loadDoc() {
       document.getElementById("Fee4").innerHTML = four;
       document.getElementById("currentChainState").innerHTML = out;}
 
-// var ctx = document.getElementById('myChart');
-// var myChart = new Chart(ctx, {
-//     type: 'bar',
-//     data: {
-//         labels: ['Fastest', '30 min', '1 hour', 'Minimum'],
-//         datasets: [{
-//             label: 'sats/byte',
-//             data: [arr.fastestFee, arr.halfHourFee, arr.hourFee, arr.minimumFee],
-//             backgroundColor: [
-//                 'rgba(255, 99, 132, 0.2)',
-//                 'rgba(54, 162, 235, 0.2)',
-//                 'rgba(255, 206, 86, 0.2)',
-//                 'rgba(75, 192, 192, 0.2)'
-//             ],
-//             borderColor: [
-//                 'rgba(255, 99, 132, 1)',
-//                 'rgba(54, 162, 235, 1)',
-//                 'rgba(255, 206, 86, 1)',
-//                 'rgba(75, 192, 192, 1)'
-//             ],
-//             borderWidth: 1
-//         }]
-//     },
-//     options: {
-//         scales: {
-//             yAxes: [{
-//                 ticks: {
-//                     beginAtZero: true
-//                 }
-//             }]
-//         }
-//     }
-// });
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Fastest', '30 min', '1 hour', 'Minimum'],
+        datasets: [{
+            label: 'sats/byte',
+            data: [arr.fastestFee, arr.halfHourFee, arr.hourFee, arr.minimumFee],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
 
 
     //   halfmoon.initStickyAlert({

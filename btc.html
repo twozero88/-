@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" href="images/icons/icon-192x192.png">
+  <title>❤bitcoin - Love Bitcoin</title>
+  <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="manifest" href="manifest.json" />
+  <!-- ios support -->
+  <link rel="apple-touch-icon" href="images/icons/icon-192x192.png" />
+  <link rel="apple-touch-icon" href="images/icons/icon-256x256.png" />
+  <link rel="apple-touch-icon" href="images/icons/icon-512x512.png" />
+  <meta name="apple-mobile-web-app-status-bar" content="#000000" />
+  <meta name="theme-color" content="#000000" />
+  <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
+
+</head>
+<style type="text/css">
+.btcText{
+  margin-top: -200px;
+}
+
+#bitcoin{
+  display:block;
+  text-align:center;
+  }
+.path {
+  stroke-dasharray: 2110;
+  stroke-dashoffset: 2110;
+  stroke-width:20;
+  stroke-linecap:round;
+  animation: dash 6s linear infinite;
+  fill-opacity:0;
+  stroke:orange;
+}
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 2110;
+    opacity:0.5;
+    stroke:orange;
+  }
+  15%{
+    opacity:1;
+    stroke:orange;
+  }
+  70%{
+    opacity:1;
+    stroke:orange;
+  }
+  100%{
+    stroke-dashoffset:0;
+    opacity:0.5;
+    stroke:yellow;
+  }
+}
+#qr-canvas {
+  display:block;
+  text-align:center;
+  margin: auto;
+  /*width: calc(100% - 20px);*/
+  max-width: 300px;
+}
+
+#btn-scan-qr {
+  cursor: pointer;
+}
+
+#btn-scan-qr img {
+  height: 10em;
+  padding: 15px;
+  margin: 15px;
+  background: white;
+}
+
+#qr-result {
+  font-size: 1.2em;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 700px;
+  background-color: white;
+}
+
+</style>
+<!-- <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true" onload="loadDoc();halfmoon.toggleDarkMode();">
+ --><body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" onload="loadDoc();halfmoon.toggleDarkMode();">
+
+<!-- First comes the modal -->
+<div class="modal" id="modal-1" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" id="closeCam" class="close" role="button" aria-label="Close">
+        <span aria-hidden="">&times;</span>
+      </a>
+      <h5 class="modal-title text-center">Scanner</h5>
+      <p>
+        <canvas hidden="" id="qr-canvas"></canvas>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="donate" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <h5 class="modal-title text-center">Donate BTC</h5>
+      <p class='text-center'>
+          Address
+        <div class="row justify-content-center">   
+    <div class="col-6">
+    <img src="images/qr.png" class="img-fluid" alt="responsive image">
+  </div>
+</div>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="modal-2" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <h5 class="modal-title text-center">Current Fee</h5>
+<div class="alert alert-success filled-dm" role="alert">
+  <h4 class="alert-heading">Fastest Fee (10 mins)</h4>
+    <span id="Fee1"></span>
+</div>
+<br>
+<div class="alert alert-primary" role="alert">
+  <h4 class="alert-heading filled-dm">30 mins Fee</h4>
+    <span id="Fee2"></span>
+</div>
+<br>
+<div class="alert alert-secondary filled-dm" role="alert">
+  <h4 class="alert-heading">60 mins Fee</h4>
+    <span id="Fee3"></span>
+</div>
+<br>
+<div class="alert alert-danger filled-dm" role="alert">
+  <h4 class="alert-heading">Minimum Fee</h4>
+  <span id="Fee4"></span>
+</div>
+    </div>
+  </div>
+</div>
+
+3b1g video
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="page-wrapper with-navbar with-navbar-fixed-bottom">
+<div class="sticky-alerts"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" >
+      <div class="navbar-content">
+      </div>
+      <div href="#" class="navbar-brand ml-auto text-center">
+      <br>
+      <span href="#" id='currentChainState'>❤bitcoin.ws</span>
+      <br>
+      </div>
+      <span class="navbar-text ml-auto">
+      </span>
+</nav>
+<!-- NAVBAR ENDS -->
+
+<!-- WRAPPER -->
+<div class="content-wrapper">
+
+
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <!-- First column -->
+<div class="col-8">
+<div class="card p-0 "> <!-- p-0 = padding: 0 -->
+    <div class="content">
+      <h2 class="content-title">
+        BTC in a minute
+        <div id="bitcoin">
+  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   width="50px" height="50px" viewBox="100 100 400 400" xml:space="preserve">
+    <filter id="dropshadow" height="130%">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+  <feOffset dx="0" dy="0" result="offsetblur"/>
+  <feFlood flood-color="red"/>
+<feComposite in2="offsetblur" operator="in"/>
+<feMerge>
+<feMergeNode/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>          
+<path class="path" style="filter:url(#dropshadow)" fill="#000000" d="M446.089,261.45c6.135-41.001-25.084-63.033-67.769-77.735l13.844-55.532l-33.801-8.424l-13.48,54.068
+  c-8.896-2.217-18.015-4.304-27.091-6.371l13.568-54.429l-33.776-8.424l-13.861,55.521c-7.354-1.676-14.575-3.328-21.587-5.073
+  l0.034-0.171l-46.617-11.64l-8.993,36.102c0,0,25.08,5.746,24.549,6.105c13.689,3.42,16.159,12.478,15.75,19.658L208.93,357.23
+  c-1.675,4.158-5.925,10.401-15.494,8.031c0.338,0.485-24.579-6.134-24.579-6.134l-9.631,40.468l36.843,9.188
+  c8.178,2.051,16.209,4.19,24.098,6.217l-13.978,56.17l33.764,8.424l13.852-55.571c9.235,2.499,18.186,4.813,26.948,6.995
+  l-13.802,55.309l33.801,8.424l13.994-56.061c57.648,10.902,100.998,6.502,119.237-45.627c14.705-41.979-0.731-66.193-31.06-81.984
+  C425.008,305.984,441.655,291.455,446.089,261.45z M368.859,369.754c-10.455,41.983-81.128,19.285-104.052,13.589l18.562-74.404
+  C306.28,314.65,379.774,325.975,368.859,369.754z M379.302,260.846c-9.527,38.187-68.358,18.781-87.442,14.023l16.828-67.489
+  C327.767,212.14,389.234,221.02,379.302,260.846z"/>          
+</svg>
+</div>
+
+      </h2>
+      <p class="text-muted">
+        Bitcoin is a <i class="dropdown toggle-on-hover">
+  <span data-toggle="dropdown" id="..." aria-haspopup="true" aria-expanded="false">
+    blockchain
+  </span>
+  <span class="dropdown-menu" aria-labelledby="...">
+    ...
+  </span>
+</i> based <i>decentralized</i> <i>crypto-currency</i>  controlled by <i>the people</i>. It was brought to existince by <i>Satoshi Nakamoto</i> in 2008 and has been running smoothly ever since.
+      </p>
+      <p class="text-muted">
+        <ul>
+        <li>Bitcoins have a limited supply of around 21M.</li>
+        <li>Bitcoin miners verify the transaction and mint some new coins in the process.</li>
+        <li>Everyone can store and see list of all bitcoin transaction that have happened in the past, but those transactions can't (very easily) be linked with person's real life identity.</li>
+        <li>You need no id/verification to send and receive btc.</li>
+        <li>Anyone can make simple transactions to send and receive money withouting knowing the actual working.</li>
+        <li>BTC rates are subject to markets. One may buy/sell any time and store the coins in a wallet (hardware or software)</li>
+        <li>One can use bitcoin transactions ranging from a few cents to millions of dollars without depending on any third party. Distance between senders and receivers is immaterial.</li>
+        <li>This is also the reason why many countries may have their own laws regarding cryptocurrencies.</li>
+      </ul>
+      </p>
+      <p>
+        You may watch this video to know how bitcoin works (personal recommendation)
+      </p>
+<div class="text-center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bBC-nXj3Ng4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+      <div class="text-right"> <!-- text-right = text-align: right -->
+        This was a toned-down explaination to make it simpler. You may check <a href="/resources.html">resources</a> to explore more.
+      </div>
+    </div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+</div>
+<!-- WRAPPER ENDS -->
+
+
+
+<nav class="navbar navbar-fixed-bottom">
+  <div class="navbar-content">
+        <div class="dropdown dropup with-arrow">
+          <button class="btn" data-toggle="dropdown" type="button" id="navbar-fixed-bottom-dropdown-toggle">
+            Help
+            <i class="fa fa-angle-up" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="navbar-fixed-bottom-dropdown-toggle">
+            <a href="resources.html" class="dropdown-item">Resources</a>
+            <a href="btc.html" class="dropdown-item">BTC in a minute</a>
+            <div class="dropdown-divider"></div>
+            <a href="#donate" class="dropdown-item">Donate</a>
+            <a href="about.html" class="dropdown-item">About and contact</a>
+          </div>
+        </div>
+  </div>
+  <div href="/" class="navbar-brand ml-auto"> 
+    <a href="/">❤bitcoin.ws</a>
+    </div>
+    <!-- Navbar text -->
+    <span class="navbar-text ml-auto">
+    <button class="btn btn-square" type="button" onclick="toggle()"><i class="material-icons">brightness_3</i></button>
+    </span>
+</nav>
+
+</div>
+<!-- PAGE WRAPPER END -->
+<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+
+<script>
+function toggle() {
+    halfmoon.toggleDarkMode();
+  }
+
+var price;
+
+function getPrice() {
+var xhttpPR = new XMLHttpRequest();
+xhttpPR.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = JSON.parse(this.responseText);
+      document.getElementById("currPrice").innerHTML = arr.data[154].price.toFixed(1);
+  }
+  };
+xhttpPR.open("GET", "https://price.bisq.wiz.biz/getAllMarketPrices", true);
+
+xhttpPR.setRequestHeader('Origin', 'https://twozero88.github.io/loveBitcoin');
+xhttpPR.setRequestHeader('Content-Type', 'application/json');
+xhttpPR.send();
+}
+setInterval(function refreshFeed(){
+loadDoc();
+}, 10000);
+
+
+function loadDoc() {  
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = JSON.parse(this.responseText);
+      var out = "Fastest fee : "+ arr.fastestFee+" sat/vB. <a href='#modal-2'>Check current fees</a>";
+      var one = arr.fastestFee + " sat/vB";
+      var two = arr.halfHourFee + " sat/vB";
+      var three = arr.hourFee + " sat/vB";
+      var four = arr.minimumFee + " sat/vB";
+      document.getElementById("Fee1").innerHTML = one;
+      document.getElementById("Fee2").innerHTML = two;
+      document.getElementById("Fee3").innerHTML = three;
+      document.getElementById("Fee4").innerHTML = four;
+      document.getElementById("currentChainState").innerHTML = out;}
+
+
+  
+  };
+  xhttp.open("GET", "https://mempool.space/api/v1/fees/recommended", true);
+  xhttp.send();
+}
+
+</script>
+</body>
+</html>

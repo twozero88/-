@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" href="images/icons/icon-192x192.png">
+  <title>❤bitcoin - Love Bitcoin</title>
+  <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="manifest" href="manifest.json" />
+  <!-- ios support -->
+  <link rel="apple-touch-icon" href="images/icons/icon-192x192.png" />
+  <link rel="apple-touch-icon" href="images/icons/icon-256x256.png" />
+  <link rel="apple-touch-icon" href="images/icons/icon-512x512.png" />
+  <meta name="apple-mobile-web-app-status-bar" content="#000000" />
+  <meta name="theme-color" content="#000000" />
+  <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
+
+</head>
+<style type="text/css">
+.btcText{
+  margin-top: -200px;
+}
+
+#bitcoin{
+  display:block;
+  text-align:center;
+  }
+.path {
+  stroke-dasharray: 2110;
+  stroke-dashoffset: 2110;
+  stroke-width:20;
+  stroke-linecap:round;
+  animation: dash 6s linear infinite;
+  fill-opacity:0;
+  stroke:orange;
+}
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 2110;
+    opacity:0.5;
+    stroke:orange;
+  }
+  15%{
+    opacity:1;
+    stroke:orange;
+  }
+  70%{
+    opacity:1;
+    stroke:orange;
+  }
+  100%{
+    stroke-dashoffset:0;
+    opacity:0.5;
+    stroke:yellow;
+  }
+}
+#qr-canvas {
+  display:block;
+  text-align:center;
+  margin: auto;
+  /*width: calc(100% - 20px);*/
+  max-width: 300px;
+}
+
+#btn-scan-qr {
+  cursor: pointer;
+}
+
+#btn-scan-qr img {
+  height: 10em;
+  padding: 15px;
+  margin: 15px;
+  background: white;
+}
+
+#qr-result {
+  font-size: 1.2em;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 700px;
+  background-color: white;
+}
+
+</style>
+<!-- <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true" onload="loadDoc();halfmoon.toggleDarkMode();">
+ --><body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" onload="loadDoc();halfmoon.toggleDarkMode();">
+
+<!-- First comes the modal -->
+<div class="modal" id="modal-1" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" id="closeCam" class="close" role="button" aria-label="Close">
+        <span aria-hidden="">&times;</span>
+      </a>
+      <h5 class="modal-title text-center">Scanner</h5>
+      <p>
+        <canvas hidden="" id="qr-canvas"></canvas>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="donate" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <h5 class="modal-title text-center">Donate BTC</h5>
+      <p class='text-center'>
+          Address
+        <div class="row justify-content-center">   
+    <div class="col-6">
+    <img src="images/qr.png" class="img-fluid" alt="responsive image">
+  </div>
+</div>
+      </p>
+    </div>
+  </div>
+</div>
+<!-- <div class="modal" id="modal-0" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" id="closeCam" class="close" role="button" aria-label="Close">
+        <span aria-hidden="">&times;</span>
+      </a>
+      <h5 class="modal-title text-center">Tx. ID Scanner</h5>
+      <p>
+        <canvas hidden="" id="qr-canvas2"></canvas>
+      </p>
+    </div>
+  </div>
+</div>
+ -->
+
+<div class="modal" id="modal-2" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <h5 class="modal-title text-center">Current Fee</h5>
+<div class="alert alert-success filled-dm" role="alert">
+  <h4 class="alert-heading">Fastest Fee (10 mins)</h4>
+    <span id="Fee1"></span>
+</div>
+<br>
+<div class="alert alert-primary" role="alert">
+  <h4 class="alert-heading filled-dm">30 mins Fee</h4>
+    <span id="Fee2"></span>
+</div>
+<br>
+<div class="alert alert-secondary filled-dm" role="alert">
+  <h4 class="alert-heading">60 mins Fee</h4>
+    <span id="Fee3"></span>
+</div>
+<br>
+<div class="alert alert-danger filled-dm" role="alert">
+  <h4 class="alert-heading">Minimum Fee</h4>
+  <span id="Fee4"></span>
+</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="page-wrapper with-navbar with-navbar-fixed-bottom">
+<div class="sticky-alerts"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" >
+      <div class="navbar-content">
+      </div>
+      <div href="#" class="navbar-brand ml-auto text-center">
+      <br>
+      <span href="#" id='currentChainState'>❤bitcoin.ws</span>
+      <br>
+      </div>
+      <span class="navbar-text ml-auto">
+      </span>
+</nav>
+<!-- NAVBAR ENDS -->
+
+<!-- WRAPPER -->
+<div class="content-wrapper">
+
+
+</div>
+<!-- WRAPPER ENDS -->
+
+
+
+<nav class="navbar navbar-fixed-bottom">
+  <div class="navbar-content">
+        <div class="dropdown dropup with-arrow">
+          <button class="btn" data-toggle="dropdown" type="button" id="navbar-fixed-bottom-dropdown-toggle">
+            Help
+            <i class="fa fa-angle-up" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="navbar-fixed-bottom-dropdown-toggle">
+            <a href="resources.html" class="dropdown-item">Resources</a>
+            <a href="btc.html" class="dropdown-item">BTC in a minute</a>
+            <div class="dropdown-divider"></div>
+            <a href="#donate" class="dropdown-item">Donate</a>
+            <a href="about.html" class="dropdown-item">About and contact</a>
+          </div>
+        </div>
+  </div>
+  <div href="/" class="navbar-brand ml-auto"> 
+    <a href="/">❤bitcoin.ws</a>
+    </div>
+    <!-- Navbar text -->
+    <span class="navbar-text ml-auto">
+    <button class="btn btn-square" type="button" onclick="toggle()"><i class="material-icons">brightness_3</i></button>
+    </span>
+</nav>
+
+</div>
+<!-- PAGE WRAPPER END -->
+<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+
+<script>
+function toggle() {
+    halfmoon.toggleDarkMode();
+  }
+
+var price;
+
+function getPrice() {
+var xhttpPR = new XMLHttpRequest();
+xhttpPR.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = JSON.parse(this.responseText);
+      document.getElementById("currPrice").innerHTML = arr.data[154].price.toFixed(1);
+  }
+  };
+xhttpPR.open("GET", "https://price.bisq.wiz.biz/getAllMarketPrices", true);
+
+xhttpPR.setRequestHeader('Origin', 'https://twozero88.github.io/loveBitcoin');
+xhttpPR.setRequestHeader('Content-Type', 'application/json');
+xhttpPR.send();
+}
+setInterval(function refreshFeed(){
+loadDoc();
+}, 10000);
+
+
+function loadDoc() {  
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var arr = JSON.parse(this.responseText);
+      var out = "Fastest fee : "+ arr.fastestFee+" sat/vB. <a href='#modal-2'>Check current fees</a>";
+      var one = arr.fastestFee + " sat/vB";
+      var two = arr.halfHourFee + " sat/vB";
+      var three = arr.hourFee + " sat/vB";
+      var four = arr.minimumFee + " sat/vB";
+      document.getElementById("Fee1").innerHTML = one;
+      document.getElementById("Fee2").innerHTML = two;
+      document.getElementById("Fee3").innerHTML = three;
+      document.getElementById("Fee4").innerHTML = four;
+      document.getElementById("currentChainState").innerHTML = out;}
+
+
+  
+  };
+  xhttp.open("GET", "https://mempool.space/api/v1/fees/recommended", true);
+  xhttp.send();
+}
+
+</script>
+</body>
+</html>
